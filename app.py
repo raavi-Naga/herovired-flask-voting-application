@@ -17,6 +17,13 @@ def vote(name):
     return {"message": f"Vote recorded for {name}", "votes": voterslist[name]}
 @app.get('/results')
 def results():
-    return voterslist
+    if not voterslist:
+        return {"message": "No votes recorded"}
+    total = sum(voterslist.values())
+    return {"message": f"Total votes recorded: {total}", "voters": voterslist}
+@app.get('/reset')
+def reset():
+    voterslist.clear()
+    return {"message": "Votes count have been reset successfully!"}
 if __name__ == '__main__':
     app.run(debug=True) 
